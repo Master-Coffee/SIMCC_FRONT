@@ -6,7 +6,7 @@ import { GeralProvider } from "../components/provider/geral-provider";
 import { useModalHomepage } from "../components/hooks/use-modal-homepage";
 import { useLocation, useParams } from "react-router-dom";
 
-
+    // HERE _1_ 
 
 export function Home() {
     const { onOpen } = useModalHomepage();
@@ -35,7 +35,7 @@ export function Home() {
       onOpen('initial-home')
   } else  if(location.pathname == `/resultados`) {
     onOpen('result-home')
-} else if(location.pathname == '/pos-graduacao') {
+} else if(location.pathname == '/pos-graduacao') { //HERE graduation-home
     onOpen('graduation-home')
 } else if(location.pathname == '/dicionario') {
     onOpen('dicionario')

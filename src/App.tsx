@@ -73,7 +73,7 @@ import { TermosUso } from './pages/TermosUso';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [navbar, setNavbar] = useState(false);
-  const [user, setUser] = useState<User| null>(null);;
+  const [user, setUser] = useState<User| null>(null);
 
 
   const [urlGeral, setUrlGeral] = useState(import.meta.env.VITE_URL_GERAL);
@@ -128,7 +128,6 @@ useEffect(() => {
 
   
 
-
   /////PERMISSÃO
   const hasBaremaAvaliacao = permission.some(
     (perm) => perm.permission === 'criar_barema_avaliacao'
@@ -171,7 +170,8 @@ useEffect(() => {
   );
 
 
- 
+  // [ROOT] _0_ 
+  // [ROUTE] <Route path='/pos-graduacao' element={<Home/>}/>
 
   return (
     <>
@@ -209,13 +209,14 @@ useEffect(() => {
 
     }}
     >
-    
+      
       <DefaultLayout>
         <LoadingWrapper>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/resultados' element={<Home/>}/>
         <Route path='/dicionario' element={<Home/>}/>
+
         <Route path='/pos-graduacao' element={<Home/>}/>
         <Route path='/grupos-pesquisa' element={<Home/>}/>
         <Route path='/informacoes' element={<Home/>}/>

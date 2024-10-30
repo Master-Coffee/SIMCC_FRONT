@@ -17,6 +17,10 @@ import { ResearcherPage } from "../researcher/researcher-page";
 import { Maria } from "../maria/maria";
 import { TodosPesquisadores } from "../homepage/categorias/researchers-home/todos-pesquisadores";
 
+
+
+// HERE _2_
+
 const ModalContent = () => {
   const { type } = useModalHomepage();
 
@@ -26,6 +30,7 @@ const ModalContent = () => {
     case 'initial-home':
       return <InitialHome/>
     case 'graduation-home':
+      // HERE GraduateProgram
       return <GraduateProgram/>
     case 'result-home':
       return <ResultHome/>
