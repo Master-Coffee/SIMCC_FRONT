@@ -1,4 +1,3 @@
-
 import { useContext, useEffect } from "react";
 import SearchLayout from "../layout/search-layout";
 import { UserContext } from "../context/context";
@@ -6,72 +5,70 @@ import { GeralProvider } from "../components/provider/geral-provider";
 import { useModalHomepage } from "../components/hooks/use-modal-homepage";
 import { useLocation, useParams } from "react-router-dom";
 
-    // HERE _1_ 
+// HERE _1_
 
 export function Home() {
-    const { onOpen } = useModalHomepage();
-    const {navCollapsedSize, defaultLayout, isCollapsed, idGraduateProgram,  setValoresSelecionadosExport} = useContext(UserContext)
+  const { onOpen } = useModalHomepage();
+  const {
+    navCollapsedSize,
+    defaultLayout,
+    isCollapsed,
+    idGraduateProgram,
+    setValoresSelecionadosExport,
+  } = useContext(UserContext);
 
-  
-
-    const location = useLocation();
-    const { searchId } = useParams<{
-      searchId: string
+  const location = useLocation();
+  const { searchId } = useParams<{
+    searchId: string;
   }>();
-
-  
 
   useEffect(() => {
     if (searchId) {
-        setValoresSelecionadosExport(searchId);
-        console.log('setValoresSelecionadosExport', searchId);
+      setValoresSelecionadosExport(searchId);
+      console.log("setValoresSelecionadosExport", searchId);
     }
-}, [searchId]);
+  }, [searchId]);
 
-     
+  useEffect(() => {
+    if (location.pathname == "/") {
+      onOpen("initial-home");
+    } else if (location.pathname == `/resultados`) {
+      onOpen("result-home");
+    } else if (location.pathname == "/pos-graduacao") {
+      //[ROUTE] graduation-home
+      onOpen("graduation-home");
+    } else if (location.pathname == "/dicionario") {
+      onOpen("dicionario");
+    } else if (location.pathname == "/indicadores") {
+      onOpen("indicadores");
+    } else if (location.pathname == "/producoes-recentes") {
+      onOpen("producoes-recentes");
+    } else if (location.pathname == "/informacoes") {
+      onOpen("informacoes");
+    } else if (location.pathname == "/grupos-pesquisa") {
+      onOpen("grupos-pesquisa");
+    } else if (location.pathname == "/departamentos") {
+      onOpen("departamentos");
+    } else if (location.pathname == "/researcher") {
+      onOpen("pesquisador");
+    } else if (location.pathname == "/marIA") {
+      onOpen("maria");
+    } else if (location.pathname == "/docentes-tecnicos") {
+      onOpen("docentes-tecnicos");
+    }
+  }, [location]);
 
-    useEffect(() => {
-      if(location.pathname == '/') {
-      onOpen('initial-home')
-  } else  if(location.pathname == `/resultados`) {
-    onOpen('result-home')
-} else if(location.pathname == '/pos-graduacao') { //HERE graduation-home
-    onOpen('graduation-home')
-} else if(location.pathname == '/dicionario') {
-    onOpen('dicionario')
-}  else if(location.pathname == '/indicadores') {
-    onOpen('indicadores')
-} else if(location.pathname == '/producoes-recentes') {
-    onOpen('producoes-recentes')
-} else if(location.pathname == '/informacoes') {
-    onOpen('informacoes')
-} else if(location.pathname == '/grupos-pesquisa') {
-    onOpen('grupos-pesquisa')
-} else if(location.pathname == '/departamentos') {
-    onOpen('departamentos')
-} else if(location.pathname == '/researcher') {
-    onOpen('pesquisador')
-} else if(location.pathname == '/marIA') {
-    onOpen('maria')
-} else if(location.pathname == '/docentes-tecnicos') {
-    onOpen('docentes-tecnicos')
-} 
-    }, [location]);
-  
-console.log(idGraduateProgram)
+  console.log(idGraduateProgram);
 
-
-
-    return(
-        <>
-        <SearchLayout
-         defaultLayout={defaultLayout}
-         defaultCollapsed={isCollapsed}
-         navCollapsedSize={navCollapsedSize}
-        >
-            <GeralProvider/>
-
-        </SearchLayout>
-        </>
-    )
+  return (
+    <>
+      <SearchLayout
+        defaultLayout={defaultLayout}
+        defaultCollapsed={isCollapsed}
+        navCollapsedSize={navCollapsedSize}
+      >
+        <GeralProvider />
+      </SearchLayout>
+    </>
+  );
 }

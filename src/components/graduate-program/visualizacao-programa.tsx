@@ -215,8 +215,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // HERE _4_
-// NOTE
-//
+// NOTE 
+//  urlGeral = "https://conectee.eng.ufmg.br/api/"
+
 
 // ★ VisualizacaoPrograma ─────────────────────────➤
 export function VisualizacaoPrograma() {

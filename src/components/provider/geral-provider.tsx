@@ -30,7 +30,7 @@ const ModalContent = () => {
     case 'initial-home':
       return <InitialHome/>
     case 'graduation-home':
-      // HERE GraduateProgram
+      // [ROUTE] GraduateProgram
       return <GraduateProgram/>
     case 'result-home':
       return <ResultHome/>
