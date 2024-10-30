@@ -608,7 +608,7 @@ export function VisualizacaoPrograma() {
     setProvider(providerName);
   }, []);
 
-  // ── ✦─DOM─➤
+  // ───────────── ✦─DOM─➤
   return (
     <>
       {/* // [○] graduatePrograms */}
@@ -967,6 +967,9 @@ export function VisualizacaoPrograma() {
                     <div className="mb-6">
                       <Search />
                     </div>
+
+                    {/* // . . . . . . . . . . . . . . . . . . . . */}
+                    {/* //_PIN_ Card 1 Informações */}
                     {/* // [○] graduatePrograms */}
                     {graduatePrograms.slice(0, 1).map((props) => (
                       <div className="mb-4 md:mb-8">
@@ -985,6 +988,7 @@ export function VisualizacaoPrograma() {
                           <CardHeader className="flex flex-row items-start bg-neutral-100 dark:bg-neutral-800">
                             <div className="flex items-center justify-between w-full">
                               <CardTitle className="group flex items-center w-fit gap-2 text-lg">
+                                
                                 <div className="w-fit">Informações</div>
                               </CardTitle>
                               <div className="flex gap-4 items-center justify-end flex-wrap ">
@@ -1004,8 +1008,13 @@ export function VisualizacaoPrograma() {
                         </Alert>
                       </div>
                     ))}
+                    {/* // . . . . . . . . . . . . . . . . . . . . */}
 
+
+                    
+                    {/* //_PIN_ Card 2 Total de artigos... */}
                     <Alert className="grid gap-3 lg:grid-cols-4 grid-cols-2 mb-4 md:mb-8">
+
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <div>
@@ -1026,6 +1035,7 @@ export function VisualizacaoPrograma() {
                           </span>
                         </CardContent>
                       </div>
+
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <div>
@@ -1046,6 +1056,7 @@ export function VisualizacaoPrograma() {
                           </span>
                         </CardContent>
                       </div>
+
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <div>
@@ -1086,10 +1097,17 @@ export function VisualizacaoPrograma() {
                           </span>
                         </CardContent>
                       </div>
+
                     </Alert>
+                    {/* // . . . . . . . . . . . . . . . . . . . . */}
+
+
+
 
                     <div className="flex flex-col md:gap-8 gap-4">
                       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+
+                        {/* //_PIN_ Card 3 Índice de produção de artigos */}
                         <div className="h-full gap-8 grid">
                           <Alert className="p-0 ">
                             <CardHeader className="flex p-10 flex-row items-center justify-between space-y-0 pb-2">
@@ -1123,7 +1141,9 @@ export function VisualizacaoPrograma() {
                             </CardContent>
                           </Alert>
                         </div>
+                        {/* // . . . . . . . . . . . . . . . . . . . . */}
 
+                        {/* //_PIN_ Card 4 Produção geral */}
                         <Alert className="lg:col-span-2 h-[450px] p-0 ">
                           <CardHeader className="flex p-0 flex-col items-stretch space-y-0 border-b dark:border-b-neutral-800  sm:flex-row">
                             <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -1332,9 +1352,13 @@ export function VisualizacaoPrograma() {
                             </ChartContainer>
                           </CardContent>
                         </Alert>
+                        {/* // . . . . . . . . . . . . . . . . . . . . */}
+
                       </div>
 
                       <div className="grid  gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                        
+                        {/* //_PIN_ Card 5 Artigos qualificados. . . */}
                         <Alert className="lg:col-span-2">
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <div>
@@ -1365,7 +1389,9 @@ export function VisualizacaoPrograma() {
                             <GraficoArtigosPorQualis dados={dados} />
                           </CardContent>
                         </Alert>
+                        {/* // . . . . . . . . . . . . . . . . . . . . */}
 
+                        {/* //_PIN_ Card 6 Nuvem de palavras */}
                         <Alert className=" h-full ">
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <div>
@@ -1400,6 +1426,7 @@ export function VisualizacaoPrograma() {
                             />
                           </div>
                         </Alert>
+                        {/* // . . . . . . . . . . . . . . . . . . . . */}
                       </div>
                     </div>
                   </div>
