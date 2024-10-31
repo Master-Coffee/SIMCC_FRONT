@@ -37,6 +37,9 @@ export function Home() {
     } else if (location.pathname == "/pos-graduacao") {
       //[ROUTE] graduation-home
       onOpen("graduation-home");
+    } else if (location.pathname == "/incite") {
+      //[ROUTE] incite-home
+      onOpen("incite-home");
     } else if (location.pathname == "/dicionario") {
       onOpen("dicionario");
     } else if (location.pathname == "/indicadores") {

@@ -1,7 +1,26 @@
 import { create } from "zustand";
 
 // HERE _1.5 _
-export type ModalType = "initial-home" | "maria-home" | "result-home" | 'graduation-home' | 'baremas'| 'meus-baremas' | 'procurar-baremas' | 'result-procurar-baremas' | 'dicionario' |'indicadores' | 'producoes-recentes' | 'informacoes' | 'grupos-pesquisa' | 'departamentos' | 'pesquisador' |'maria' | 'pesquisadores' | 'docentes-tecnicos'
+export type ModalType =
+  | "initial-home"
+  | "maria-home"
+  | "result-home"
+  | "graduation-home"
+  | "incite-home"
+  | "baremas"
+  | "meus-baremas"
+  | "procurar-baremas"
+  | "result-procurar-baremas"
+  | "dicionario"
+  | "indicadores"
+  | "producoes-recentes"
+  | "informacoes"
+  | "grupos-pesquisa"
+  | "departamentos"
+  | "pesquisador"
+  | "maria"
+  | "pesquisadores"
+  | "docentes-tecnicos";
 
 interface ModalStore {
   type: ModalType | null;
@@ -10,10 +29,10 @@ interface ModalStore {
   onClose: () => void;
 }
 
-export const useModalHomepage = create<ModalStore>((set:any) => ({
+export const useModalHomepage = create<ModalStore>((set: any) => ({
   type: null,
   data: {},
   isOpen: false,
-  onOpen: (type: any) => set({ isOpen: true, type}),
-  onClose: () => set({ type: null, isOpen: false })
+  onOpen: (type: any) => set({ isOpen: true, type }),
+  onClose: () => set({ type: null, isOpen: false }),
 }));

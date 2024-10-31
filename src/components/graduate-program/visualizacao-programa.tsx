@@ -349,6 +349,7 @@ export function VisualizacaoPrograma() {
     "producao_bibliografica"
   );
 
+    //<○> dados = total
   const total = useMemo(
     () => ({
       producao_bibliografica: dados.reduce(
@@ -388,9 +389,10 @@ export function VisualizacaoPrograma() {
     DOUTORADO: "bg-blue-800",
   };
 
+  // . . . . . . . . . . .
   //palavars
 
-  // [✪] [words, setWords]
+  // ✪ [words, setWords]
   const [words, setWords] = useState<PalavrasChaves[]>([]);
   let urlPalavrasChaves = `${urlGeral}lists_word_researcher?graduate_program_id=${type_search}&researcher_id=`;
 
@@ -410,6 +412,7 @@ export function VisualizacaoPrograma() {
         });
         const data = await response.json();
         if (data) {
+          // ● setWords
           setWords(data);
         }
       } catch (err) {
@@ -436,6 +439,7 @@ export function VisualizacaoPrograma() {
     series: [
       {
         type: "wordcloud",
+        // ○ words
         data: words.map((word) => ({
           name: word.term,
           weight: word.among,
@@ -512,6 +516,7 @@ export function VisualizacaoPrograma() {
   const [patenteCondecida, setPatenteConcedida] = useState("");
   const [patenteNaoConcedida, setPatenteNaoConcedida] = useState("");
   const [relTec, setRelTec] = useState("");
+
 
   // (✪) [pesosProducao, setPesosProducao]
   const [pesosProducao, setPesosProducao] = useState<PesosProducao>({
@@ -1136,7 +1141,7 @@ export function VisualizacaoPrograma() {
 
                             <CardContent className="px-2 sm:p-6">
                               <GraficoIndiceProdBibli
-                                articles={dados}
+                                articles={dados} // <○> dados
                                 pesosProducao={pesosProducao}
                               />
                             </CardContent>
@@ -1240,6 +1245,7 @@ export function VisualizacaoPrograma() {
                             >
                               <BarChart
                                 accessibilityLayer
+                                // <○> dados
                                 data={dados}
                                 margin={{
                                   top: 20,
@@ -1387,7 +1393,8 @@ export function VisualizacaoPrograma() {
                           </CardHeader>
 
                           <CardContent className="flex py-0 flex-1  items-center justify-center">
-                            <GraficoArtigosPorQualis dados={dados} />
+                            {/* // <○> dados */}
+                            <GraficoArtigosPorQualis dados={dados}  /> 
                           </CardContent>
                         </Alert>
                         {/* // . . . . . . . . . . . . . . . . . . . . */}

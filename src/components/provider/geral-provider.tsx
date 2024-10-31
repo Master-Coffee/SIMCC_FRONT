@@ -5,6 +5,7 @@ import { InitialHome } from "../homepage/inital-home";
 
 import { ResultHome } from "../homepage/result-home";
 import { GraduateProgram } from "../graduate-program/graduate-program";
+import { InciteProgram } from "../incite-program/incite-program";
 
 import { useModalHomepage } from "../hooks/use-modal-homepage";
 import { Dicionario } from "../dicionario/dicionario";
@@ -32,6 +33,10 @@ const ModalContent = () => {
     case 'graduation-home':
       // [ROUTE] GraduateProgram
       return <GraduateProgram/>
+    case 'incite-home':
+      // [ROUTE] InciteProgram
+      return <InciteProgram/>
+
     case 'result-home':
       return <ResultHome/>
     case 'indicadores' :

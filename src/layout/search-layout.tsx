@@ -193,10 +193,10 @@ export default function SearchLayout({
     },
 
     {
-      title: "Incites",
+      title: "Incite",
       label: "",
       icon: Bean,
-      link: "/incites",
+      link: "/incite",
     },
 
     {
