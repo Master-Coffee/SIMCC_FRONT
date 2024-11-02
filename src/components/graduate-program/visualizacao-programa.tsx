@@ -215,14 +215,18 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // HERE _4_
-// NOTE 
+// NOTE
 //  urlGeral = "https://conectee.eng.ufmg.br/api/"
-
 
 // ★ VisualizacaoPrograma ─────────────────────────➤
 export function VisualizacaoPrograma() {
-  const { urlGeral, itemsSelecionados, searchType, permission, urlGeralAdm } =
+  // WARN url modified
+  // const { urlGeral, itemsSelecionados, searchType, permission, urlGeralAdm } =
+  //   useContext(UserContext);
+  const { itemsSelecionados, searchType, permission, urlGeralAdm } =
     useContext(UserContext);
+  const urlGeral = "http://127.0.0.1:8080/";
+
   const { onOpen: onOpenModal } = useModal();
   const history = useNavigate();
 
@@ -349,7 +353,7 @@ export function VisualizacaoPrograma() {
     "producao_bibliografica"
   );
 
-    //<○> dados = total
+  //<○> dados = total
   const total = useMemo(
     () => ({
       producao_bibliografica: dados.reduce(
@@ -417,8 +421,7 @@ export function VisualizacaoPrograma() {
         }
       } catch (err) {
         console.log(err);
-      } finally {
-      }
+      } finally {}
     };
     fetchData();
   }, []); // . . . . . . . . . . .
@@ -517,7 +520,6 @@ export function VisualizacaoPrograma() {
   const [patenteNaoConcedida, setPatenteNaoConcedida] = useState("");
   const [relTec, setRelTec] = useState("");
 
-
   // (✪) [pesosProducao, setPesosProducao]
   const [pesosProducao, setPesosProducao] = useState<PesosProducao>({
     a1: a1,
@@ -613,6 +615,7 @@ export function VisualizacaoPrograma() {
     const providerName = url.hostname;
     setProvider(providerName);
   }, []);
+
 
   // ───────────── ✦─DOM─➤
   return (
@@ -994,7 +997,6 @@ export function VisualizacaoPrograma() {
                           <CardHeader className="flex flex-row items-start bg-neutral-100 dark:bg-neutral-800">
                             <div className="flex items-center justify-between w-full">
                               <CardTitle className="group flex items-center w-fit gap-2 text-lg">
-                                
                                 <div className="w-fit">Informações</div>
                               </CardTitle>
                               <div className="flex gap-4 items-center justify-end flex-wrap ">
@@ -1016,11 +1018,8 @@ export function VisualizacaoPrograma() {
                     ))}
                     {/* // . . . . . . . . . . . . . . . . . . . . */}
 
-
-                    
                     {/* //_PIN_ Card 2 Total de artigos... */}
                     <Alert className="grid gap-3 lg:grid-cols-4 grid-cols-2 mb-4 md:mb-8">
-
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <div>
@@ -1103,16 +1102,11 @@ export function VisualizacaoPrograma() {
                           </span>
                         </CardContent>
                       </div>
-
                     </Alert>
                     {/* // . . . . . . . . . . . . . . . . . . . . */}
 
-
-
-
                     <div className="flex flex-col md:gap-8 gap-4">
                       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-
                         {/* //_PIN_ Card 3 Índice de produção de artigos */}
                         <div className="h-full gap-8 grid">
                           <Alert className="p-0 ">
@@ -1360,11 +1354,9 @@ export function VisualizacaoPrograma() {
                           </CardContent>
                         </Alert>
                         {/* // . . . . . . . . . . . . . . . . . . . . */}
-
                       </div>
 
                       <div className="grid  gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-                        
                         {/* //_PIN_ Card 5 Artigos qualificados. . . */}
                         <Alert className="lg:col-span-2">
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -1394,7 +1386,7 @@ export function VisualizacaoPrograma() {
 
                           <CardContent className="flex py-0 flex-1  items-center justify-center">
                             {/* // <○> dados */}
-                            <GraficoArtigosPorQualis dados={dados}  /> 
+                            <GraficoArtigosPorQualis dados={dados} />
                           </CardContent>
                         </Alert>
                         {/* // . . . . . . . . . . . . . . . . . . . . */}
@@ -1464,4 +1456,5 @@ export function VisualizacaoPrograma() {
       )}
     </>
   );
+
 } // ★ ─────────────────────────➤

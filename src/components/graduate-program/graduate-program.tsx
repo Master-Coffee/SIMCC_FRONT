@@ -44,8 +44,17 @@ const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
+
 export function GraduateProgram() {
-  const { urlGeral } = useContext(UserContext);
+
+  // WARN URL modified
+  // const { urlGeral } = useContext(UserContext);
+  const  urlGeral = "http://127.0.0.1:8080/"
+
+  // NOTE
+    //  urlGeral = "https://conectee.eng.ufmg.br/api/" from env
+
+
   const { isOpen, type } = useModalHomepage();
 
   const queryUrl = useQuery();
@@ -54,6 +63,7 @@ export function GraduateProgram() {
 
   const isModalOpen = isOpen && type === "graduation-home";
 
+  // ✪ [graduatePrograms, setGraduatePrograms]
   const [graduatePrograms, setGraduatePrograms] = useState<GraduateProgram[]>(
     []
   );
@@ -64,12 +74,10 @@ export function GraduateProgram() {
 
   console.log(urlGraduateProgram);
 
-  // NOTE
-  // from env
-  //  urlGeral = "https://conectee.eng.ufmg.br/api/" from env
+
 
   useEffect(() => {
-    // _PIN_  ✉ 
+    // _PIN_  ✉ urlGraduateProgram
     const fetchData = async () => {
       try {
         const response = await fetch(urlGraduateProgram, {
