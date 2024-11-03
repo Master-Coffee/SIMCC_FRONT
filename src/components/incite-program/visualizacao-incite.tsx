@@ -59,7 +59,7 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from "../../components/ui/chart";
+} from "../ui/chart";
 import { GraficoArtigosPorQualis } from "../dashboard/graficos/grafico-qualis";
 import { DocentesPrograma } from "./docentes-programa";
 import { IndicatorsGraduate } from "./indicators-graduate";
@@ -74,37 +74,22 @@ import { GraficoIndiceProdBibli } from "./grafico-indice-producao-bibliografica"
 import { useTheme } from "next-themes";
 import { LogoConecteeWhite } from "../svg/LogoConecteeWhite";
 import { LogoConectee } from "../svg/LogoConectee";
-import { GraduateProgram } from "./graduate-program";
 import { Badge } from "../ui/badge";
 
 interface PalavrasChaves {
   term: string;
   among: number;
 }
-
-interface GraduateProgram {
-  area: string;
-  code: string;
-  graduate_program_id: string;
-  modality: string;
+interface InciteProgram {
+  create_at: string;
+  description: string;
+  incite_graduate_program_id: string;
+  institution_id: string;
+  link: string;
   name: string;
-  rating: string;
-  type: string;
-  city: string;
-  state: string;
-  instituicao: string;
-  url_image: string;
-  region: string;
-  sigla: string;
-  latitude: string;
-  longitude: string;
-  visible: string;
   qtd_discente: string;
-  qtd_colaborador: string;
-  qtd_permanente: string;
-  site: string;
-  acronym: string;
-  description?: string;
+  updated_at: string;
+  visible: string;
 }
 
 interface Total {
@@ -214,21 +199,20 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// HERE _4_
+// HERE *I4*
 // NOTE
 //  urlGeral = "https://conectee.eng.ufmg.br/api/"
 
-// ★ VisualizacaoPrograma ─────────────────────────➤
-export function VisualizacaoPrograma() {
+// ★ VisualizacaoIncite ─────────────────────────➤
+export function VisualizacaoIncite() {
   // WARN url modified
-  const { urlGeral, itemsSelecionados, searchType, permission, urlGeralAdm } =
-    useContext(UserContext);
-
-  // const { itemsSelecionados, searchType, permission, urlGeralAdm } =
+  // const { urlGeral, itemsSelecionados, searchType, permission, urlGeralAdm } =
   //   useContext(UserContext);
-  // const urlGeral = "http://127.0.0.1:8080/";
 
-  
+  const { itemsSelecionados, searchType, permission, urlGeralAdm } =
+    useContext(UserContext);
+  const urlGeral = "http://127.0.0.1:8080/";
+
   const { onOpen: onOpenModal } = useModal();
   const history = useNavigate();
 
@@ -240,7 +224,7 @@ export function VisualizacaoPrograma() {
   const type_search = queryUrl.get("graduate_program_id");
 
   // [✪] [graduatePrograms, setGraduatePrograms]
-  const [graduatePrograms, setGraduatePrograms] = useState<GraduateProgram[]>(
+  const [graduatePrograms, setGraduatePrograms] = useState<InciteProgram[]>(
     []
   );
 
@@ -492,7 +476,7 @@ export function VisualizacaoPrograma() {
   // [○] graduate_program_id = graduatePrograms
   const graduate_program_id =
     graduatePrograms && graduatePrograms[0]
-      ? graduatePrograms[0].graduate_program_id
+      ? graduatePrograms[0].incite_graduate_program_id
       : null;
 
   //pesos prod
@@ -758,7 +742,6 @@ export function VisualizacaoPrograma() {
                                 </TooltipProvider>
                                 <div className="flex items-center flex-1  w-full justify-between">
                                   <div className="flex items-center gap-3 ml-auto">
-                                    
                                     <TabsList>
                                       <TabsTrigger
                                         value="all"
@@ -767,7 +750,6 @@ export function VisualizacaoPrograma() {
                                       >
                                         Visão geral
                                       </TabsTrigger>
-
                                       <TabsTrigger
                                         value="unread"
                                         onClick={() => setTab2("unread")}
@@ -775,8 +757,6 @@ export function VisualizacaoPrograma() {
                                       >
                                         Docentes
                                       </TabsTrigger>
-
-
                                       <TabsTrigger
                                         value="movimentacao-bens"
                                         onClick={() =>
@@ -786,7 +766,6 @@ export function VisualizacaoPrograma() {
                                       >
                                         Discentes
                                       </TabsTrigger>
-
                                     </TabsList>
                                   </div>
                                 </div>
@@ -1439,6 +1418,7 @@ export function VisualizacaoPrograma() {
                   </div>
                 )}
               </TabsContent>
+              
               <TabsContent
                 value="doc"
                 className="h-auto flex flex-col gap-4 md:gap-8  "

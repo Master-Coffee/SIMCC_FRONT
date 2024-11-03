@@ -48,8 +48,8 @@ const useQuery = () => {
 export function GraduateProgram() {
 
   // WARN URL modified
-  // const { urlGeral } = useContext(UserContext);
-  const  urlGeral = "http://127.0.0.1:8080/"
+  const { urlGeral } = useContext(UserContext);
+  // const  urlGeral = "http://127.0.0.1:8080/"
 
   // NOTE
     //  urlGeral = "https://conectee.eng.ufmg.br/api/" from env

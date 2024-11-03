@@ -4,7 +4,7 @@ import { useModalHomepage } from "../hooks/use-modal-homepage";
 
 import { InciteProgramItem } from "./incite-program-item";
 
-import { VisualizacaoPrograma } from "./visualizacao-programa";
+import { VisualizacaoIncite } from "./visualizacao-incite";
 
 import { Link, useLocation } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -46,8 +46,8 @@ export function InciteProgram() {
 
   const isModalOpen = isOpen && type === "incite-home";
 
-  // ✪ [graduatePrograms, setGraduatePrograms]
-  const [graduatePrograms, setGraduatePrograms] = useState<InciteProgram[]>([]);
+  // ✪ [incitePrograms, setIncitePrograms]
+  const [incitePrograms, setIncitePrograms] = useState<InciteProgram[]>([]);
 
   const inciteSelecionado = type_search || "";
   const [search, setSearch] = useState("");
@@ -70,7 +70,7 @@ export function InciteProgram() {
         const data = await response.json();
         if (data) {
           console.log("data :", data); // [LOG] data
-          setGraduatePrograms(data);
+          setIncitePrograms(data);
         }
       } catch (err) {
         console.log("err : ", err);
@@ -80,8 +80,8 @@ export function InciteProgram() {
     fetchData();
   }, [urlInciteProgram]);
 
-  const filteredTotal = Array.isArray(graduatePrograms)
-    ? graduatePrograms.filter((item) => {
+  const filteredTotal = Array.isArray(incitePrograms)
+    ? incitePrograms.filter((item) => {
         // Normaliza a string do item e da busca para comparação
         const normalizeString = (str: any) =>
           str
@@ -118,7 +118,7 @@ export function InciteProgram() {
                   </Link>
 
                   <h1 className="z-[2] lg:text-left text-center max-w-[500px] text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]  md:block mb-4 ">
-                    Selecione um programa do{" "}
+                    Selecione um {" "}
                     <strong className="bg-[#82AAC0]  rounded-md px-3 pb-2 text-white font-medium">
                       {" "}
                       Incite
