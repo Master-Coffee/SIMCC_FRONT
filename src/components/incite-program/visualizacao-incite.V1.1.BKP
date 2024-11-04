@@ -80,7 +80,6 @@ interface PalavrasChaves {
   term: string;
   among: number;
 }
-
 interface InciteProgram {
   create_at: string;
   description: string;
@@ -92,6 +91,7 @@ interface InciteProgram {
   updated_at: string;
   visible: string;
 }
+
 interface Total {
   article: string;
   book: string;
@@ -205,20 +205,33 @@ const chartConfig = {
 
 // ★ VisualizacaoIncite ─────────────────────────➤
 export function VisualizacaoIncite() {
+  // WARN url modified
+  // const { urlGeral, itemsSelecionados, searchType, permission, urlGeralAdm } =
+  //   useContext(UserContext);
+
   const { itemsSelecionados, searchType, permission, urlGeralAdm } =
     useContext(UserContext);
   const urlGeral = "http://127.0.0.1:8080/";
+
   const { onOpen: onOpenModal } = useModal();
   const history = useNavigate();
+
   const handleVoltar = () => {
     history(-1);
   };
-  const queryUrl = useQuery();
-  const type_search = queryUrl.get("incite_graduate_program_id");
 
-  // [✪] [incitePrograms, setIncitePrograms]
-  const [incitePrograms, setIncitePrograms] = useState<InciteProgram[]>([]);
-  const urlGraduateProgram = `${urlGeral}incite_program_profnit?id=${type_search}`;
+  const queryUrl = useQuery();
+  const type_search = queryUrl.get("graduate_program_id");
+
+  // [✪] [graduatePrograms, setGraduatePrograms]
+  const [graduatePrograms, setGraduatePrograms] = useState<InciteProgram[]>(
+    []
+  );
+
+  const urlGraduateProgram = `${urlGeral}graduate_program_profnit?id=${type_search}`;
+
+  console.log(urlGraduateProgram);
+
   useEffect(() => {
     // _PIN_  ✉ urlGraduateProgram
     const fetchData = async () => {
@@ -235,8 +248,8 @@ export function VisualizacaoIncite() {
         });
         const data = await response.json();
         if (data) {
-          // [●] setIncitePrograms
-          setIncitePrograms(data);
+          // [●] setGraduatePrograms
+          setGraduatePrograms(data);
         }
       } catch (err) {
         console.log(err);
@@ -245,9 +258,13 @@ export function VisualizacaoIncite() {
     fetchData();
   }, [urlGraduateProgram]); // . . . . . . . . . . .
 
+  console.log(graduatePrograms);
+
   // {✪} [totalProducao, setTotalProducao]
   const [totalProducao, setTotalProducao] = useState<Total[]>([]);
-  const urlTotalProgram = `${urlGeral}incite_program_production?incite_program_id=${type_search}&year=1900`;
+
+  const urlTotalProgram = `${urlGeral}graduate_program_production?graduate_program_id=${type_search}&year=1900`;
+
   useEffect(() => {
     // _PIN_  ✉ urlTotalProgram
     const fetchData = async () => {
@@ -274,6 +291,12 @@ export function VisualizacaoIncite() {
     fetchData();
   }, [urlTotalProgram]); // . . . . . . . . . . .
 
+  const [isOn, setIsOn] = useState(true);
+
+  const { onOpen, type: typeResult } = useModalResult();
+
+  /////////////////////////
+
   // <✪> [dados, setDados]
   const [dados, setDados] = useState<Research[]>([]);
   const [year, setYear] = useState(new Date().getFullYear() - 4);
@@ -284,7 +307,7 @@ export function VisualizacaoIncite() {
     years.push(i);
   }
 
-  const urlDados = `${urlGeral}InciteResearcherData/DadosGerais?year=${year}&incite_program_id=${type_search}`;
+  let urlDados = `${urlGeral}ResearcherData/DadosGerais?year=${year}&graduate_program_id=${type_search}`;
 
   useEffect(() => {
     // _PIN_  ✉ urlDados
@@ -312,7 +335,11 @@ export function VisualizacaoIncite() {
     fetchData();
   }, [urlDados]); // . . . . . . . . . . .
 
-  //<○> total : dados
+  const [activeChart, setActiveChart] = useState<keyof typeof chartConfig>(
+    "producao_bibliografica"
+  );
+
+  //<○> dados = total
   const total = useMemo(
     () => ({
       producao_bibliografica: dados.reduce(
@@ -327,11 +354,37 @@ export function VisualizacaoIncite() {
       ),
     }),
     [dados]
-  ); // . . . . . . . . . . .
+  );
+
+  /////////
+
+  const [visibleChart, setVisibleChart] = useState(0);
+  const chartKeys = [
+    "count_article",
+    "count_patent",
+    "count_guidance_in_progress",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisibleChart((prev) => (prev + 1) % chartKeys.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [chartKeys.length]);
+
+  ///
+  const qualisColor = {
+    MESTRADO: "bg-blue-200",
+    DOUTORADO: "bg-blue-800",
+  };
+
+  // . . . . . . . . . . .
+  //palavars
 
   // ✪ [words, setWords]
   const [words, setWords] = useState<PalavrasChaves[]>([]);
-  let urlPalavrasChaves = `${urlGeral}incite_lists_word_researcher?incite_program_id=${type_search}&researcher_id=`;
+  let urlPalavrasChaves = `${urlGeral}lists_word_researcher?graduate_program_id=${type_search}&researcher_id=`;
 
   useEffect(() => {
     // _PIN_  ✉ urlPalavrasChaves
@@ -354,13 +407,11 @@ export function VisualizacaoIncite() {
         }
       } catch (err) {
         console.log(err);
-      } finally {
-      }
+      } finally {}
     };
     fetchData();
   }, []); // . . . . . . . . . . .
 
-  // ○ options: words
   const options = {
     chart: {
       backgroundColor: "transparent",
@@ -377,6 +428,7 @@ export function VisualizacaoIncite() {
     series: [
       {
         type: "wordcloud",
+        // ○ words
         data: words.map((word) => ({
           name: word.term,
           weight: word.among,
@@ -399,9 +451,36 @@ export function VisualizacaoIncite() {
         colors: ["#9CBCCE", "#284B5D", "#709CB6"],
       },
     },
-  }; // . . . . . . . . . . .
+  };
+
+  const has_visualizar_indicadores_pos_graduacao = permission.some(
+    (perm) => perm.permission === "visualizar_indicadores_pos_graduacao"
+  );
+
+  const [tab, setTab] = useState("all");
+  const [tab2, setTab2] = useState("all");
+
+  useEffect(() => {
+    if (!has_visualizar_indicadores_pos_graduacao) {
+      setTab("all");
+    }
+  }, [permission]);
+
+  const [isOpenSheet, setIsOpenSheet] = useState(false);
+  const [expand, setExpand] = useState(false);
+
+  const has_editar_informacoes_programa = permission.some(
+    (perm) => perm.permission === "editar_informacoes_programa"
+  );
+
+  // [○] graduate_program_id = graduatePrograms
+  const graduate_program_id =
+    graduatePrograms && graduatePrograms[0]
+      ? graduatePrograms[0].incite_graduate_program_id
+      : null;
 
   //pesos prod
+
   const [a1, seta1] = useState("");
   const [a2, seta2] = useState("");
   const [a3, seta3] = useState("");
@@ -503,19 +582,10 @@ export function VisualizacaoIncite() {
       }
     };
     fetchData();
-  }, []); // . . . . . . . . . . .
-
-  const [activeChart, setActiveChart] = useState<keyof typeof chartConfig>(
-    "producao_bibliografica"
-  );
-
-  // [○] incite_graduate_program_id : incitePrograms
-  const incite_graduate_program_id =
-    incitePrograms && incitePrograms[0]
-      ? incitePrograms[0].incite_graduate_program_id
-      : null;
+  }, []);
 
   const { theme } = useTheme();
+
   const [clientId, setClientId] = useState<string | null>(null);
   const [provider, setProvider] = useState<string | null>(null);
 
@@ -532,15 +602,12 @@ export function VisualizacaoIncite() {
     setProvider(providerName);
   }, []);
 
-  const [tab, setTab] = useState("all");
-  const [isOn, setIsOn] = useState(true);
-  const { onOpen, type: typeResult } = useModalResult();
 
   // ───────────── ✦─DOM─➤
   return (
     <>
-      {/* // [○] incitePrograms */}
-      {incitePrograms.slice(0, 1).map((props) =>
+      {/* // [○] graduatePrograms */}
+      {graduatePrograms.slice(0, 1).map((props) =>
         props.visible === "false" ? (
           <div
             style={{ backgroundImage: `url(${bg_popup})` }}
@@ -578,9 +645,9 @@ export function VisualizacaoIncite() {
                   <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                     Pós-graduação
                   </h1>
-                  {/* // [○] incitePrograms */}
+                  {/* // [○] graduatePrograms */}
                   <Badge variant={"outline"} className="max-w-[500px] truncate">
-                    {incitePrograms.map((props) => (
+                    {graduatePrograms.map((props) => (
                       <>{props.name}</>
                     ))}
                   </Badge>
@@ -601,7 +668,139 @@ export function VisualizacaoIncite() {
                       >
                         Docentes
                       </TabsTrigger>
+                      <TabsTrigger
+                        disabled={!has_visualizar_indicadores_pos_graduacao}
+                        value="ind"
+                        onClick={() => setTab("ind")}
+                        className="text-zinc-600 dark:text-zinc-200"
+                      >
+                        Indicadores
+                      </TabsTrigger>
                     </TabsList>
+                    {has_editar_informacoes_programa && (
+                      <Sheet open={isOpenSheet} onOpenChange={setIsOpenSheet}>
+                        <SheetTrigger>
+                          <Button
+                            onClick={() => setExpand(false)}
+                            className="h-8"
+                            size={"sm"}
+                          >
+                            <LayoutDashboard size={16} />
+                            Painel administrativo
+                          </Button>
+                        </SheetTrigger>
+
+                        <SheetContent
+                          className={`p-0 dark:bg-neutral-900 dark:border-gray-600 ${
+                            expand ? "min-w-[80vw]" : "min-w-[50vw]"
+                          }`}
+                        >
+                          <Tabs
+                            defaultValue={tab2}
+                            value={tab2}
+                            className="h-full"
+                          >
+                            <DialogHeader className="h-[50px] justify-center px-4 border-b">
+                              <div className="flex items-center gap-3">
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button
+                                        className="h-8 w-8"
+                                        onClick={() => setExpand(!expand)}
+                                        variant={"outline"}
+                                        size={"icon"}
+                                      >
+                                        {expand ? (
+                                          <ArrowRightFromLine size={16} />
+                                        ) : (
+                                          <ArrowLeftFromLine size={16} />
+                                        )}
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      {" "}
+                                      {expand ? "Recolher" : "Expandir"}
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button
+                                        className="h-8 w-8"
+                                        variant={"outline"}
+                                        onClick={() => setIsOpenSheet(false)}
+                                        size={"icon"}
+                                      >
+                                        <X size={16} />
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent> Fechar</TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                <div className="flex items-center flex-1  w-full justify-between">
+                                  <div className="flex items-center gap-3 ml-auto">
+                                    <TabsList>
+                                      <TabsTrigger
+                                        value="all"
+                                        onClick={() => setTab2("all")}
+                                        className="text-zinc-600 dark:text-zinc-200"
+                                      >
+                                        Visão geral
+                                      </TabsTrigger>
+                                      <TabsTrigger
+                                        value="unread"
+                                        onClick={() => setTab2("unread")}
+                                        className="text-zinc-600 dark:text-zinc-200"
+                                      >
+                                        Docentes
+                                      </TabsTrigger>
+                                      <TabsTrigger
+                                        value="movimentacao-bens"
+                                        onClick={() =>
+                                          setTab2("movimentacao-bens")
+                                        }
+                                        className="text-zinc-600 dark:text-zinc-200"
+                                      >
+                                        Discentes
+                                      </TabsTrigger>
+                                    </TabsList>
+                                  </div>
+                                </div>
+                              </div>
+                            </DialogHeader>
+
+                            <ScrollArea className="relative whitespace-nowrap h-[calc(100vh-50px)] ">
+                              <TabsContent
+                                value="all"
+                                className=""
+                              ></TabsContent>
+
+                              <TabsContent value="unread" className="">
+                                <DocentesGraduate
+                                  graduate_program_id={
+                                    graduate_program_id || ""
+                                  }
+                                />
+                              </TabsContent>
+
+                              <TabsContent
+                                value="movimentacao-bens"
+                                className=""
+                              >
+                                <DiscentesGraduate
+                                  graduate_program_id={
+                                    graduate_program_id || ""
+                                  }
+                                />
+                              </TabsContent>
+                            </ScrollArea>
+                          </Tabs>
+                        </SheetContent>
+                      </Sheet>
+                    )}
                   </div>
                 </div>
               </div>
@@ -612,11 +811,31 @@ export function VisualizacaoIncite() {
               >
                 <div className="md:p-8 p-4 py-0 md:py-0 mt-2">
                   <h1 className=" max-w-[700px] text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]  md:block mb-3 ">
-                    {/* // [○] incitePrograms */}
-                    {incitePrograms.map((props) => (
+                    {/* // [○] graduatePrograms */}
+                    {graduatePrograms.map((props) => (
                       <>{props.name}</>
                     ))}
                   </h1>
+
+                  {/* // [○] graduatePrograms */}
+                  {graduatePrograms.map((props) => (
+                    <div className="flex flex-wrap gap-4 ">
+                      <div className="text-sm text-gray-500 dark:text-gray-300 font-normal flex gap-1 items-center">
+                        <Users size={12} />
+                        {props.type}
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-300 font-normal flex gap-1 items-center capitalize">
+                        <MapPinIcon size={12} />
+                        {props.city}
+                      </div>
+                      {props.rating != "" && (
+                        <div className="text-sm text-gray-500 dark:text-gray-300 font-normal flex gap-1 items-center">
+                          <Star size={12} />
+                          {props.rating}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
 
                 {itemsSelecionados.length > 0 ? (
@@ -746,13 +965,15 @@ export function VisualizacaoIncite() {
 
                     {/* // . . . . . . . . . . . . . . . . . . . . */}
                     {/* //_PIN_ Card 1 Informações */}
-                    {/* // [○] incitePrograms */}
-                    {incitePrograms.slice(0, 1).map((props) => (
+                    {/* // [○] graduatePrograms */}
+                    {graduatePrograms.slice(0, 1).map((props) => (
                       <div className="mb-4 md:mb-8">
                         <div
-                          className={
-                            "h-3 w-full rounded-t-md dark:border-neutral-800 border border-neutral-200 border-b-0 bg-green-900"
-                          }
+                          className={`h-3 w-full rounded-t-md dark:border-neutral-800 border border-neutral-200 border-b-0 ${
+                            qualisColor[
+                              props.type.trim() as keyof typeof qualisColor
+                            ]
+                          }  `}
                         ></div>
 
                         <Alert
@@ -765,9 +986,9 @@ export function VisualizacaoIncite() {
                                 <div className="w-fit">Informações</div>
                               </CardTitle>
                               <div className="flex gap-4 items-center justify-end flex-wrap ">
-                                <Link to={props.link} target="_blank">
+                                <Link to={props.site} target="_blank">
                                   <div className="text-sm text-gray-500 dark:text-gray-300 font-normal flex gap-1 items-center">
-                                    <Globe size={16} /> {props.link}
+                                    <Globe size={16} /> {props.site}
                                   </div>
                                 </Link>
                               </div>
@@ -840,7 +1061,6 @@ export function VisualizacaoIncite() {
 
                         <CardContent>
                           <span className="text-lg font-bold leading-none sm:text-3xl">
-                            {/* // {○}totalProducao */}
                             {totalProducao.map((props) => (
                               <>{props.book_chapter}</>
                             ))}
@@ -881,8 +1101,9 @@ export function VisualizacaoIncite() {
                                 <CardTitle className="text-sm font-medium">
                                   Índice de produção de artigos
                                 </CardTitle>
-
-                                <CardDescription>⚠ WARN,</CardDescription>
+                                <CardDescription>
+                                  Multiplicação do peso pela quantidade
+                                </CardDescription>
                               </div>
 
                               <TooltipProvider>
@@ -901,7 +1122,7 @@ export function VisualizacaoIncite() {
                             <CardContent className="px-2 sm:p-6">
                               <GraficoIndiceProdBibli
                                 articles={dados} // <○> dados
-                                pesosProducao={pesosProducao} // (○) pesosProducao
+                                pesosProducao={pesosProducao}
                               />
                             </CardContent>
                           </Alert>
@@ -1184,7 +1405,6 @@ export function VisualizacaoIncite() {
                             id="nuveeeem"
                             className="flex w-full justify-center items-center"
                           >
-                            {/* // ○ options  */}
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={options}
@@ -1198,10 +1418,30 @@ export function VisualizacaoIncite() {
                   </div>
                 )}
               </TabsContent>
+              
+              <TabsContent
+                value="doc"
+                className="h-auto flex flex-col gap-4 md:gap-8  "
+              >
+                <DocentesPrograma />
+              </TabsContent>
+
+              <TabsContent
+                value="ind"
+                className="h-auto flex flex-col gap-4 md:gap-8  "
+              >
+                <IndicatorsGraduate />
+              </TabsContent>
+
+              <TabsContent
+                value="unread"
+                className="h-auto flex flex-col gap-4 md:gap-8  "
+              ></TabsContent>
             </Tabs>
           </main>
         )
       )}
     </>
   );
+
 } // ★ ─────────────────────────➤

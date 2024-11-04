@@ -428,6 +428,7 @@ export function VisualizacaoPrograma() {
     fetchData();
   }, []); // . . . . . . . . . . .
 
+  // ○ options: words
   const options = {
     chart: {
       backgroundColor: "transparent",
@@ -444,7 +445,6 @@ export function VisualizacaoPrograma() {
     series: [
       {
         type: "wordcloud",
-        // ○ words
         data: words.map((word) => ({
           name: word.term,
           weight: word.among,
@@ -1143,7 +1143,7 @@ export function VisualizacaoPrograma() {
                             <CardContent className="px-2 sm:p-6">
                               <GraficoIndiceProdBibli
                                 articles={dados} // <○> dados
-                                pesosProducao={pesosProducao}
+                                pesosProducao={pesosProducao} // (○) pesosProducao 
                               />
                             </CardContent>
                           </Alert>
@@ -1426,6 +1426,7 @@ export function VisualizacaoPrograma() {
                             id="nuveeeem"
                             className="flex w-full justify-center items-center"
                           >
+                            {/* // ○ options  */}
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={options}

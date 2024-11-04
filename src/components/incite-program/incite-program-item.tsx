@@ -26,9 +26,9 @@ export function InciteProgramItem(props: InciteProgram) {
   // Calcula a diferença em dias entre a data atual e a data do item
 
   const handlePesquisaFinal = () => {
-    queryUrl.set("graduate_program_id", props.incite_graduate_program_id);
+    queryUrl.set("incite_graduate_program_id", props.incite_graduate_program_id);
     navigate({
-      pathname: "/pos-graduacao",
+      pathname: "/incite",
       search: queryUrl.toString(),
     });
   };

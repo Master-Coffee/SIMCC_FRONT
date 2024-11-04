@@ -176,7 +176,7 @@ export function InciteProgram() {
               </ResponsiveMasonry>
             </main>
           ) : (
-            <>🦀</>
+            <VisualizacaoIncite/>
           )}
         </>
       )}
