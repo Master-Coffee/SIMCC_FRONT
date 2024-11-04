@@ -172,7 +172,7 @@ export default function SearchLayout({
     },
   ];
 
-  // HERE _Nav_
+  // HERE *Nav*
   const links2 = [
     ...(version
       ? [

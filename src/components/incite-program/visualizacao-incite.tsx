@@ -61,7 +61,10 @@ import {
   ChartLegendContent,
 } from "../ui/chart";
 import { GraficoArtigosPorQualis } from "../dashboard/graficos/grafico-qualis";
+
+
 import { DocentesPrograma } from "./docentes-programa";
+
 import { IndicatorsGraduate } from "./indicators-graduate";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { DialogHeader } from "../ui/dialog";
@@ -92,6 +95,7 @@ interface InciteProgram {
   updated_at: string;
   visible: string;
 }
+
 interface Total {
   article: string;
   book: string;
@@ -576,7 +580,7 @@ export function VisualizacaoIncite() {
                   </Button>
 
                   <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                    Pós-graduação
+                    Incite
                   </h1>
                   {/* // [○] incitePrograms */}
                   <Badge variant={"outline"} className="max-w-[500px] truncate">
@@ -605,6 +609,7 @@ export function VisualizacaoIncite() {
                   </div>
                 </div>
               </div>
+
 
               <TabsContent
                 value="all"
@@ -1198,6 +1203,17 @@ export function VisualizacaoIncite() {
                   </div>
                 )}
               </TabsContent>
+
+
+              <TabsContent
+                value="doc"
+                className="h-auto flex flex-col gap-4 md:gap-8  "
+              >
+                <DocentesPrograma />
+              </TabsContent>
+
+
+
             </Tabs>
           </main>
         )

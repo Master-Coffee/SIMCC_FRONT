@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-// HERE _1.5 _
+// HERE *I1.5*
 export type ModalType =
   | "initial-home"
   | "maria-home"

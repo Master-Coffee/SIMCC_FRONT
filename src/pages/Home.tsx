@@ -5,7 +5,7 @@ import { GeralProvider } from "../components/provider/geral-provider";
 import { useModalHomepage } from "../components/hooks/use-modal-homepage";
 import { useLocation, useParams } from "react-router-dom";
 
-// HERE _1_
+// HERE *I1*
 
 export function Home() {
   const { onOpen } = useModalHomepage();
