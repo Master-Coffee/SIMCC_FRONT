@@ -214,21 +214,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// HERE _4_
-// NOTE
-//  urlGeral = "https://conectee.eng.ufmg.br/api/"
-
-// ★ VisualizacaoPrograma ─────────────────────────➤
 export function VisualizacaoPrograma() {
-  // WARN url modified
   const { urlGeral, itemsSelecionados, searchType, permission, urlGeralAdm } =
     useContext(UserContext);
-
-  // const { itemsSelecionados, searchType, permission, urlGeralAdm } =
-  //   useContext(UserContext);
-  // const urlGeral = "http://127.0.0.1:8080/";
-
-  
   const { onOpen: onOpenModal } = useModal();
   const history = useNavigate();
 
@@ -239,7 +227,6 @@ export function VisualizacaoPrograma() {
   const queryUrl = useQuery();
   const type_search = queryUrl.get("graduate_program_id");
 
-  // [✪] [graduatePrograms, setGraduatePrograms]
   const [graduatePrograms, setGraduatePrograms] = useState<GraduateProgram[]>(
     []
   );
@@ -249,7 +236,6 @@ export function VisualizacaoPrograma() {
   console.log(urlGraduateProgram);
 
   useEffect(() => {
-    // _PIN_  ✉ urlGraduateProgram
     const fetchData = async () => {
       try {
         const response = await fetch(urlGraduateProgram, {
@@ -264,7 +250,6 @@ export function VisualizacaoPrograma() {
         });
         const data = await response.json();
         if (data) {
-          // [●] setGraduatePrograms
           setGraduatePrograms(data);
         }
       } catch (err) {
@@ -272,17 +257,15 @@ export function VisualizacaoPrograma() {
       }
     };
     fetchData();
-  }, [urlGraduateProgram]); // . . . . . . . . . . .
+  }, [urlGraduateProgram]);
 
   console.log(graduatePrograms);
 
-  // {✪} [totalProducao, setTotalProducao]
   const [totalProducao, setTotalProducao] = useState<Total[]>([]);
 
   const urlTotalProgram = `${urlGeral}graduate_program_production?graduate_program_id=${type_search}&year=1900`;
 
   useEffect(() => {
-    // _PIN_  ✉ urlTotalProgram
     const fetchData = async () => {
       try {
         const response = await fetch(urlTotalProgram, {
@@ -297,7 +280,6 @@ export function VisualizacaoPrograma() {
         });
         const data = await response.json();
         if (data) {
-          // {●}setTotalProducao
           setTotalProducao(data);
         }
       } catch (err) {
@@ -305,7 +287,7 @@ export function VisualizacaoPrograma() {
       }
     };
     fetchData();
-  }, [urlTotalProgram]); // . . . . . . . . . . .
+  }, [urlTotalProgram]);
 
   const [isOn, setIsOn] = useState(true);
 
@@ -313,7 +295,6 @@ export function VisualizacaoPrograma() {
 
   /////////////////////////
 
-  // <✪> [dados, setDados]
   const [dados, setDados] = useState<Research[]>([]);
   const [year, setYear] = useState(new Date().getFullYear() - 4);
 
@@ -326,7 +307,6 @@ export function VisualizacaoPrograma() {
   let urlDados = `${urlGeral}ResearcherData/DadosGerais?year=${year}&graduate_program_id=${type_search}`;
 
   useEffect(() => {
-    // _PIN_  ✉ urlDados
     const fetchData = async () => {
       try {
         const response = await fetch(urlDados, {
@@ -341,7 +321,6 @@ export function VisualizacaoPrograma() {
         });
         const data = await response.json();
         if (data) {
-          // <●> setDados
           setDados(data);
         }
       } catch (err) {
@@ -349,13 +328,12 @@ export function VisualizacaoPrograma() {
       }
     };
     fetchData();
-  }, [urlDados]); // . . . . . . . . . . .
+  }, [urlDados]);
 
   const [activeChart, setActiveChart] = useState<keyof typeof chartConfig>(
     "producao_bibliografica"
   );
 
-  //<○> dados = total
   const total = useMemo(
     () => ({
       producao_bibliografica: dados.reduce(
@@ -395,15 +373,11 @@ export function VisualizacaoPrograma() {
     DOUTORADO: "bg-blue-800",
   };
 
-  // . . . . . . . . . . .
   //palavars
-
-  // ✪ [words, setWords]
   const [words, setWords] = useState<PalavrasChaves[]>([]);
   let urlPalavrasChaves = `${urlGeral}lists_word_researcher?graduate_program_id=${type_search}&researcher_id=`;
 
   useEffect(() => {
-    // _PIN_  ✉ urlPalavrasChaves
     const fetchData = async () => {
       try {
         const response = await fetch(urlPalavrasChaves, {
@@ -418,17 +392,16 @@ export function VisualizacaoPrograma() {
         });
         const data = await response.json();
         if (data) {
-          // ● setWords
           setWords(data);
         }
       } catch (err) {
         console.log(err);
-      } finally {}
+      } finally {
+      }
     };
     fetchData();
-  }, []); // . . . . . . . . . . .
+  }, []);
 
-  // ○ options: words
   const options = {
     chart: {
       backgroundColor: "transparent",
@@ -489,7 +462,6 @@ export function VisualizacaoPrograma() {
     (perm) => perm.permission === "editar_informacoes_programa"
   );
 
-  // [○] graduate_program_id = graduatePrograms
   const graduate_program_id =
     graduatePrograms && graduatePrograms[0]
       ? graduatePrograms[0].graduate_program_id
@@ -522,7 +494,6 @@ export function VisualizacaoPrograma() {
   const [patenteNaoConcedida, setPatenteNaoConcedida] = useState("");
   const [relTec, setRelTec] = useState("");
 
-  // (✪) [pesosProducao, setPesosProducao]
   const [pesosProducao, setPesosProducao] = useState<PesosProducao>({
     a1: a1,
     a2: a2,
@@ -553,7 +524,6 @@ export function VisualizacaoPrograma() {
 
   console.log(urlGet);
   useEffect(() => {
-    // _PIN_  ✉ urlGet
     const fetchData = async () => {
       try {
         const response = await fetch(urlGet, {
@@ -590,7 +560,7 @@ export function VisualizacaoPrograma() {
           setPatenteConcedida(newData.patent_granted);
           setPatenteNaoConcedida(newData.patent_not_granted);
           setRelTec(newData.report);
-          // (●) setPesosProducao
+
           setPesosProducao(newData);
         }
       } catch (err) {
@@ -618,11 +588,8 @@ export function VisualizacaoPrograma() {
     setProvider(providerName);
   }, []);
 
-
-  // ───────────── ✦─DOM─➤
   return (
     <>
-      {/* // [○] graduatePrograms */}
       {graduatePrograms.slice(0, 1).map((props) =>
         props.visible === "false" ? (
           <div
@@ -632,14 +599,16 @@ export function VisualizacaoPrograma() {
             <Link to={"/"} className="h-10 mb-24 absolute top-16 ">
               {theme == "dark" ? <LogoConecteeWhite /> : <LogoConectee />}
             </Link>
-
             <div className="w-full flex flex-col items-center justify-center">
               <p className="text-9xl text-[#719CB8] font-bold mb-16 animate-pulse">{`(⊙﹏⊙)`}</p>
               <h1 className=" text-4xl text-neutral-400 font-medium leading-tight tracking-tighter lg:leading-[1.1] ">
                 Parece que não é possível acessar as informações desse programa
               </h1>
+
               <p className="font-medium text-sm mt-2">Código do erro: 404</p>
+
               <p className="font-medium text-sm">Servidor: {provider}</p>
+
               <p className="font-medium text-sm ">Caminho da URL: {clientId}</p>
             </div>
           </div>
@@ -661,7 +630,6 @@ export function VisualizacaoPrograma() {
                   <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                     Pós-graduação
                   </h1>
-                  {/* // [○] graduatePrograms */}
                   <Badge variant={"outline"} className="max-w-[500px] truncate">
                     {graduatePrograms.map((props) => (
                       <>{props.name}</>
@@ -758,7 +726,6 @@ export function VisualizacaoPrograma() {
                                 </TooltipProvider>
                                 <div className="flex items-center flex-1  w-full justify-between">
                                   <div className="flex items-center gap-3 ml-auto">
-                                    
                                     <TabsList>
                                       <TabsTrigger
                                         value="all"
@@ -767,7 +734,6 @@ export function VisualizacaoPrograma() {
                                       >
                                         Visão geral
                                       </TabsTrigger>
-
                                       <TabsTrigger
                                         value="unread"
                                         onClick={() => setTab2("unread")}
@@ -775,8 +741,6 @@ export function VisualizacaoPrograma() {
                                       >
                                         Docentes
                                       </TabsTrigger>
-
-
                                       <TabsTrigger
                                         value="movimentacao-bens"
                                         onClick={() =>
@@ -786,7 +750,6 @@ export function VisualizacaoPrograma() {
                                       >
                                         Discentes
                                       </TabsTrigger>
-
                                     </TabsList>
                                   </div>
                                 </div>
@@ -832,13 +795,11 @@ export function VisualizacaoPrograma() {
               >
                 <div className="md:p-8 p-4 py-0 md:py-0 mt-2">
                   <h1 className=" max-w-[700px] text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]  md:block mb-3 ">
-                    {/* // [○] graduatePrograms */}
                     {graduatePrograms.map((props) => (
                       <>{props.name}</>
                     ))}
                   </h1>
 
-                  {/* // [○] graduatePrograms */}
                   {graduatePrograms.map((props) => (
                     <div className="flex flex-wrap gap-4 ">
                       <div className="text-sm text-gray-500 dark:text-gray-300 font-normal flex gap-1 items-center">
@@ -984,9 +945,6 @@ export function VisualizacaoPrograma() {
                       <Search />
                     </div>
 
-                    {/* // . . . . . . . . . . . . . . . . . . . . */}
-                    {/* //_PIN_ Card 1 Informações */}
-                    {/* // [○] graduatePrograms */}
                     {graduatePrograms.slice(0, 1).map((props) => (
                       <div className="mb-4 md:mb-8">
                         <div
@@ -1023,9 +981,7 @@ export function VisualizacaoPrograma() {
                         </Alert>
                       </div>
                     ))}
-                    {/* // . . . . . . . . . . . . . . . . . . . . */}
 
-                    {/* //_PIN_ Card 2 Total de artigos... */}
                     <Alert className="grid gap-3 lg:grid-cols-4 grid-cols-2 mb-4 md:mb-8">
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -1039,7 +995,6 @@ export function VisualizacaoPrograma() {
                         </CardHeader>
 
                         <CardContent>
-                          {/* // {○}totalProducao */}
                           <span className="text-lg font-bold leading-none sm:text-3xl">
                             {totalProducao.map((props) => (
                               <>{props.article}</>
@@ -1047,7 +1002,6 @@ export function VisualizacaoPrograma() {
                           </span>
                         </CardContent>
                       </div>
-
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <div>
@@ -1060,7 +1014,6 @@ export function VisualizacaoPrograma() {
                         </CardHeader>
 
                         <CardContent>
-                          {/* // {○}totalProducao */}
                           <span className="text-lg font-bold leading-none sm:text-3xl">
                             {totalProducao.map((props) => (
                               <>{props.book}</>
@@ -1068,7 +1021,6 @@ export function VisualizacaoPrograma() {
                           </span>
                         </CardContent>
                       </div>
-
                       <div>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <div>
@@ -1101,7 +1053,6 @@ export function VisualizacaoPrograma() {
                         </CardHeader>
 
                         <CardContent>
-                          {/* // {○}totalProducao */}
                           <span className="text-lg font-bold leading-none sm:text-3xl">
                             {totalProducao.map((props) => (
                               <>{props.patent}</>
@@ -1110,11 +1061,9 @@ export function VisualizacaoPrograma() {
                         </CardContent>
                       </div>
                     </Alert>
-                    {/* // . . . . . . . . . . . . . . . . . . . . */}
 
                     <div className="flex flex-col md:gap-8 gap-4">
                       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-                        {/* //_PIN_ Card 3 Índice de produção de artigos */}
                         <div className="h-full gap-8 grid">
                           <Alert className="p-0 ">
                             <CardHeader className="flex p-10 flex-row items-center justify-between space-y-0 pb-2">
@@ -1142,15 +1091,13 @@ export function VisualizacaoPrograma() {
 
                             <CardContent className="px-2 sm:p-6">
                               <GraficoIndiceProdBibli
-                                articles={dados} // <○> dados
-                                pesosProducao={pesosProducao} // (○) pesosProducao 
+                                articles={dados}
+                                pesosProducao={pesosProducao}
                               />
                             </CardContent>
                           </Alert>
                         </div>
-                        {/* // . . . . . . . . . . . . . . . . . . . . */}
 
-                        {/* //_PIN_ Card 4 Produção geral */}
                         <Alert className="lg:col-span-2 h-[450px] p-0 ">
                           <CardHeader className="flex p-0 flex-col items-stretch space-y-0 border-b dark:border-b-neutral-800  sm:flex-row">
                             <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -1246,7 +1193,6 @@ export function VisualizacaoPrograma() {
                             >
                               <BarChart
                                 accessibilityLayer
-                                // <○> dados
                                 data={dados}
                                 margin={{
                                   top: 20,
@@ -1360,11 +1306,9 @@ export function VisualizacaoPrograma() {
                             </ChartContainer>
                           </CardContent>
                         </Alert>
-                        {/* // . . . . . . . . . . . . . . . . . . . . */}
                       </div>
 
                       <div className="grid  gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-                        {/* //_PIN_ Card 5 Artigos qualificados. . . */}
                         <Alert className="lg:col-span-2">
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <div>
@@ -1392,13 +1336,10 @@ export function VisualizacaoPrograma() {
                           </CardHeader>
 
                           <CardContent className="flex py-0 flex-1  items-center justify-center">
-                            {/* // <○> dados */}
                             <GraficoArtigosPorQualis dados={dados} />
                           </CardContent>
                         </Alert>
-                        {/* // . . . . . . . . . . . . . . . . . . . . */}
 
-                        {/* //_PIN_ Card 6 Nuvem de palavras */}
                         <Alert className=" h-full ">
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <div>
@@ -1426,7 +1367,6 @@ export function VisualizacaoPrograma() {
                             id="nuveeeem"
                             className="flex w-full justify-center items-center"
                           >
-                            {/* // ○ options  */}
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={options}
@@ -1434,7 +1374,6 @@ export function VisualizacaoPrograma() {
                             />
                           </div>
                         </Alert>
-                        {/* // . . . . . . . . . . . . . . . . . . . . */}
                       </div>
                     </div>
                   </div>
@@ -1464,5 +1403,4 @@ export function VisualizacaoPrograma() {
       )}
     </>
   );
-
-} // ★ ─────────────────────────➤
+}
